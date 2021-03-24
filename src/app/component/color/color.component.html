@@ -1,0 +1,22 @@
+<!-- <table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let color of Colors">
+        <td>{{color.id}}</td>
+        <td>{{color.name}}</td>
+    </tr>
+</tbody>
+</table> -->
+
+<ul class="list-group">
+    <li class="list-group-item  bg-light bg-gradient text-dark text-center mt-3 mb-2"><strong>Renkler</strong></li>
+</ul>
+
+<ul class="list-group">
+    <li (click)="setCurrentColor(color)" *ngFor="let color of Colors" routerLink="cars/color/{{color.id}}" [class]="getCurrentColorClass(color)">{{color.name}}</li>
+</ul>
