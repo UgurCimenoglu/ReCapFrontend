@@ -1,0 +1,66 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary float-end mt-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Kirala
+</button>
+
+<!-- Modal -->
+<div *ngIf="car" class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{car.carName}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <label for="rent-date-input" class="col-4 col-form-label">Daily Price:</label>
+                <div class="form-group row mb-2">
+                    <div class="col-8">
+                        <input id="dailyPrice" type="text" disabled="disabled" class="form-control"
+                            [value]="car.dailyPrice | currency:'₺ ' " />
+                    </div>
+                </div>
+
+                <div class="form-group col-8">
+                    <label for="exampleFormControlSelect1">Customer</label>
+                    <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="customerId">
+                        <option *ngFor="let customer of Customers" [value]="customer.id">
+                            {{customer.companyName}}
+                        </option>
+                    </select>
+                </div>
+
+                <label for="rent-date-input" class="col-4 col-form-label">Rent Date:</label>
+                <div class="form-group row mb-2">
+                    <div class="col-8">
+                        <input class="form-control" type="date" min="{{minRentDate()}}"
+                            [(ngModel)]="rentDate" />
+                    </div>
+                    {{rentDate}}
+                </div>
+         
+                <label for="rent-date-input" class="col-4 col-form-label">Return Date:</label>
+                <div class="form-group row mb-2">
+                    <div class="col-8">
+                        <input *ngIf="rentDate" class="form-control" type="date" min="{{minReturnDate()}}" value="{{minReturnDate()}}"
+                            [(ngModel)]="returnDate" />
+                    </div>
+                    {{returnDate}}
+                </div>
+            
+                <label for="rent-date-input" class="col-4 col-form-label">Total Price:</label>
+                <div class="form-group row mb-2">
+                    <div class="col-8">
+                        <input id="dailyPrice" type="text" disabled="disabled" class="form-control" value="{{getTotalPrice()}}"/>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="Payment()" data-bs-dismiss="modal">Ödeme</button>
+            </div>
+        </div>
+    </div>
+</div>

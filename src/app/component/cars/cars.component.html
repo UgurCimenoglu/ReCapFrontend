@@ -21,9 +21,15 @@
     </tr>
 </tbody>
 </table> -->
-
+<div class="row mt-3">
+    <div class="input-group flex-nowrap">
+        <input type="text" [(ngModel)]="carFilterText" class="form-control" placeholder="Araç ismi arayabilirsiniz..." aria-label="Username"
+            aria-describedby="addon-wrapping">
+            <span class="input-group-text" id="addon-wrapping">Araçlarda Ara</span>
+    </div>
+</div>
 <div class="row">
-    <div *ngFor="let car of Cars" class="myCard p-3 col-md-4">
+    <div *ngFor="let car of Cars | carFilter:carFilterText" class="myCard p-3 col-md-4">
         <div class="card">
             <img [src]="SetImage(car)" class="card-img-top myimg" alt="...">
             <div class="card-body">

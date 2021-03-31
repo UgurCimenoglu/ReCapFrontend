@@ -12,9 +12,27 @@
         </tr>
     </tbody>
 </table> -->
+
+
 <ul class="list-group">
     <li class="list-group-item  bg-light bg-gradient text-dark text-center mt-3 mb-2"><strong>Markalar</strong></li>
 </ul>
+<ul class="list-group myListGroup">
+    <input [(ngModel)]="brandFilterText" type="text" class="form-control" placeholder="Lütfen Aradığınız Markayı Yazın...">
+    <li (click)="setCurrentBrand(brand)" *ngFor="let brand of Brands | brandfilter:brandFilterText"
+        [class]="getCurrentBrandClass(brand)">{{brand.name}}</li>
+</ul>
+
 <ul class="list-group">
-    <li (click)="setCurrentBrand(brand)" *ngFor="let brand of Brands" routerLink="cars/brand/{{brand.id}}" [class]="getCurrentBrandClass(brand)">{{brand.name}}</li>
+    <li class="list-group-item  bg-light bg-gradient text-dark text-center mt-3 mb-2"><strong>Renkler</strong></li>
+</ul>
+
+<ul class="list-group myListGroup">
+    <input [(ngModel)]="colorFilterText" type="text" class="form-control" placeholder="Lütfen Aradığınız Markayı Yazın...">
+    <li (click)="setCurrentColor(color)" *ngFor="let color of Colors | colorfilter:colorFilterText" 
+        [class]="getCurrentColorClass(color)">{{color.name}}</li>
+</ul>
+
+<ul class="list-group my-4">
+    <button class="btn btn-primary" routerLink="{{setRouterLink()}}">Filtrele</button>
 </ul>

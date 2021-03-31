@@ -17,6 +17,8 @@
     <li class="list-group-item  bg-light bg-gradient text-dark text-center mt-3 mb-2"><strong>Renkler</strong></li>
 </ul>
 
-<ul class="list-group">
-    <li (click)="setCurrentColor(color)" *ngFor="let color of Colors" routerLink="cars/color/{{color.id}}" [class]="getCurrentColorClass(color)">{{color.name}}</li>
+<ul class="list-group myListGroup">
+    <input type="text" class="form-control">
+    <li (click)="setCurrentColor(color)" *ngFor="let color of Colors" routerLink="cars/color/{{color.id}}"
+        [class]="getCurrentColorClass(color)">{{color.name}}</li>
 </ul>
