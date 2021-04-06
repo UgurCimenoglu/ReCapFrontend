@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CarDetail } from 'src/app/models/cardetail';
 import { CardetailService } from 'src/app/services/cardetail.service';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-cars',
@@ -12,9 +13,13 @@ export class CarsComponent implements OnInit {
 
   Cars: CarDetail[] = [];
   dataLoaded = false;
-  carFilterText:string="";
+  carFilterText: string = "";
+  staticFilesUrl = "https://localhost:44372/images/";
 
-  constructor(private carDetailService: CardetailService, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private carDetailService: CardetailService,
+    private activatedRoute: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -34,6 +39,7 @@ export class CarsComponent implements OnInit {
     this.carDetailService.GetCarDetails().subscribe(cardetails => {
       this.Cars = cardetails.data;
       this.dataLoaded = true;
+      console.log(this.Cars)
     })
   }
 
@@ -59,14 +65,5 @@ export class CarsComponent implements OnInit {
     })
   }
 
-  staticFilesUrl = "https://localhost:44372/images/";
-
-  SetImage(Car: CarDetail) {
-    if (Car.imagePath.length > 0) {
-      return `${this.staticFilesUrl}${Car.imagePath}`;
-    } else {
-      return `${this.staticFilesUrl}default.jpg`;
-    }
-  }
 
 }

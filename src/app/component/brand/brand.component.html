@@ -1,38 +1,102 @@
-<!-- <table class="table table-bordered">
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th class="d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addBrand">
+                    Marka Ekle
+                </button>
+            </th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let brand of Brands">
             <td>{{brand.id}}</td>
             <td>{{brand.name}}</td>
+            <td class="d-flex justify-content-center">
+
+                <button type="button" class="btn btn-outline-primary mx-3" data-bs-toggle="modal"
+                    data-bs-target="#updateBrand" (click)="setCurrentBrand(brand)">
+                    Güncelle
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteBrand" (click)="setCurrentBrand(brand)">
+                    Sil
+                </button>
+            </td>
         </tr>
     </tbody>
-</table> -->
+</table>
 
+<!--Ekle Modal-->
+<div class="modal fade" id="addBrand" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="addBrandLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBrandLabel">Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="addBrandForm">
+                    <label for="colorName" class="col-4 col-form-label">Name</label>
+                    <div class="form-group row mb-2">
+                        <div class="col-12">
+                            <input type="text" class="form-control" formControlName="name" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="addBrand()">Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<ul class="list-group">
-    <li class="list-group-item  bg-light bg-gradient text-dark text-center mt-3 mb-2"><strong>Markalar</strong></li>
-</ul>
-<ul class="list-group myListGroup">
-    <input [(ngModel)]="brandFilterText" type="text" class="form-control" placeholder="Lütfen Aradığınız Markayı Yazın...">
-    <li (click)="setCurrentBrand(brand)" *ngFor="let brand of Brands | brandfilter:brandFilterText"
-        [class]="getCurrentBrandClass(brand)">{{brand.name}}</li>
-</ul>
+<!--GüncelleModal-->
+<div class="modal fade" id="updateBrand" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="updateBrandLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateBrandLabel">Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="updateBrandForm">
+                    <label for="colorName" class="col-4 col-form-label">Name</label>
+                    <div class="form-group row mb-2">
+                        <div class="col-12">
+                            <input type="text" class="form-control" formControlName="name"
+                                value="{{currentBrand?currentBrand.name:''}}" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="updateBrand()">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<ul class="list-group">
-    <li class="list-group-item  bg-light bg-gradient text-dark text-center mt-3 mb-2"><strong>Renkler</strong></li>
-</ul>
-
-<ul class="list-group myListGroup">
-    <input [(ngModel)]="colorFilterText" type="text" class="form-control" placeholder="Lütfen Aradığınız Markayı Yazın...">
-    <li (click)="setCurrentColor(color)" *ngFor="let color of Colors | colorfilter:colorFilterText" 
-        [class]="getCurrentColorClass(color)">{{color.name}}</li>
-</ul>
-
-<ul class="list-group my-4">
-    <button class="btn btn-primary" routerLink="{{setRouterLink()}}">Filtrele</button>
-</ul>
+<!--Sil Modal-->
+<div class="modal fade" id="deleteBrand" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="deleteBrandLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteBrandLabel">Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="deleteBrand()">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,24 +1,107 @@
-<!-- <table class="table table-bordered">
+<table class="table table-bordered table-hover">
     <thead>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-    </tr>
-</thead>
-<tbody>
-    <tr *ngFor="let color of Colors">
-        <td>{{color.id}}</td>
-        <td>{{color.name}}</td>
-    </tr>
-</tbody>
-</table> -->
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th class="d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addColor">
+                   Renk Ekle
+                </button>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let color of Colors">
+            <td>{{color.id}}</td>
+            <td>{{color.name}}</td>
+            <td class="d-flex justify-content-center">
 
-<ul class="list-group">
-    <li class="list-group-item  bg-light bg-gradient text-dark text-center mt-3 mb-2"><strong>Renkler</strong></li>
-</ul>
+                <button type="button" class="btn btn-outline-primary mx-3" data-bs-toggle="modal"
+                    data-bs-target="#updateColor" (click)="setCurrentColor(color)">
+                    Güncelle
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteColor" (click)="setCurrentColor(color)">
+                    Sil
+                </button>
 
-<ul class="list-group myListGroup">
-    <input type="text" class="form-control">
-    <li (click)="setCurrentColor(color)" *ngFor="let color of Colors" routerLink="cars/color/{{color.id}}"
-        [class]="getCurrentColorClass(color)">{{color.name}}</li>
-</ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<!--Ekle Modal-->
+<div class="modal fade" id="addColor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="addColorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addColorLabel">Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="colorAddForm">
+                    <label for="colorName" class="col-4 col-form-label">Name</label>
+                    <div class="form-group row mb-2">
+                        <div class="col-12">
+                            <input type="text" class="form-control" formControlName="name" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="addColor()">Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--GüncelleModal-->
+<div class="modal fade" id="updateColor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="updateColorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateColorLabel">Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="colorUpdateForm">
+                    <label for="colorName" class="col-4 col-form-label">Name</label>
+                    <div class="form-group row mb-2">
+                        <div class="col-12">
+                            <input type="text" class="form-control" formControlName="name"
+                                value="{{currentColor?currentColor.name:''}}" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="updateColor()">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Sil Modal-->
+<div class="modal fade" id="deleteColor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="deleteColorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteColorLabel">Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="deleteColor()">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>

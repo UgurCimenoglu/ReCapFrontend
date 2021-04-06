@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Brand } from 'src/app/models/brand';
-import { Color } from 'src/app/models/color';
 import { BrandService } from 'src/app/services/brand.service';
-import { ColorService } from 'src/app/services/color.service';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-brand',
@@ -12,32 +11,35 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class BrandComponent implements OnInit {
 
+  constructor(private brandService: BrandService, private toastr: ToastrService, private formBuilder: FormBuilder) { }
 
-  constructor(private brandService: BrandService, private colorService: ColorService) { }
-
-  Brands: Brand[] = [];
-  Colors: Color[] = [];
-
+  Brands: Brand[];
   currentBrand: Brand;
-  currentColor: Color;
-
-  colorFilterText = "";
-  brandFilterText = "";
+  addBrandForm: FormGroup;
+  updateBrandForm: FormGroup;
 
   ngOnInit(): void {
-    this.getBrands();
-    this.getColors();
+    this.getAllrands();
+    this.addBrandFormControl();
+    this.updateBrandFormControl();
   }
 
-  getBrands() {
-    this.brandService.getBrand().subscribe(brands => {
-      this.Brands = brands.data;
+  addBrandFormControl() {
+    this.addBrandForm = this.formBuilder.group({
+      name: ["", [Validators.required, Validators.minLength(1)]]
     })
   }
 
-  getColors() {
-    this.colorService.getColors().subscribe(colors => {
-      this.Colors = colors.data
+  updateBrandFormControl() {
+    this.updateBrandForm = this.formBuilder.group({
+      name: ["", [Validators.required, Validators.minLength(1)]]
+    })
+  }
+
+
+  getAllrands() {
+    this.brandService.getBrand().subscribe(brands => {
+      this.Brands = brands.data;
     })
   }
 
@@ -45,39 +47,59 @@ export class BrandComponent implements OnInit {
     this.currentBrand = brand;
   }
 
-  getCurrentBrandClass(brand: Brand) {
-    if (brand == this.currentBrand) {
-      return "list-group-item active"
+  addBrand() {
+    if (this.addBrandForm.valid) {
+      let brand = Object.assign({}, this.addBrandForm.value)
+      this.brandService.addBrand(brand).subscribe(response => {
+        if (response.success) {
+          this.toastr.success(response.message, "Başarılı");
+        } else {
+          this.toastr.error(response.message, "Hata")
+        }
+      }, error => {
+        console.log(error);
+        for (let i = 0; i < error.error.Errors.length; i++) {
+          this.toastr.error(error.error.Errors[i].ErrorMessage)
+        }
+      })
     } else {
-      return "list-group-item";
+      this.toastr.error("Girdiğiniz Bilgleri Kontrol Ediniz.", "Hata");
     }
   }
 
-
-  setCurrentColor(color: Color) {
-    this.currentColor = color;
-  }
-
-  getCurrentColorClass(color: Color) {
-    if (color == this.currentColor) {
-      return "list-group-item active"
+  updateBrand() {
+    if (this.updateBrandForm.valid) {
+      let brand = Object.assign({ id: this.currentBrand.id }, this.updateBrandForm.value);
+      this.brandService.updateBrand(brand).subscribe(response => {
+        if (response.success) {
+          this.toastr.success(response.message, "Başarılı");
+        } else {
+          this.toastr.error(response.message, "Hata")
+        }
+      }, error => {
+        console.log(error);
+        for (let i = 0; i < error.error.Errors.length; i++) {
+          this.toastr.error(error.error.Errors[i].ErrorMessage)
+        }
+      })
     } else {
-      return "list-group-item";
+      this.toastr.error("Girdiğiniz Bilgilerini Kontrol Ediniz.", "Hata");
     }
   }
 
-  setRouterLink() {
-    if (this.currentBrand && this.currentColor) {
-      return `cars/result/${this.currentBrand.id}/${this.currentColor.id}`;
-    } else if (this.currentBrand && !this.currentColor) {
-      return `cars/brand/${this.currentBrand.id}`;
-    } else if (this.currentColor && !this.currentBrand) {
-      return `cars/color/${this.currentColor.id}`;
-    } else {
-      return "cars"
-    }
+  deleteBrand() {
+    this.brandService.deleteBrand(this.currentBrand).subscribe(response => {
+      if (response.success) {
+        this.toastr.success(response.message, "Başarılı");
+      } else {
+        this.toastr.error(response.message, "Hata")
+      }
+    }, error => {
+      console.log(error);
+      for (let i = 0; i < error.error.Errors.length; i++) {
+        this.toastr.error(error.error.Errors[i].ErrorMessage)
+      }
+    })
   }
-
-
 
 }

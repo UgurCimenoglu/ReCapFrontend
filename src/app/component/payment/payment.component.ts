@@ -67,14 +67,17 @@ export class PaymentComponent implements OnInit {
   onSubmit(data: object) {
     if (this.formCard.invalid) {
       this.toastr.error("Hata", "Bilgilerinizi kontrol edin!")
+      this.router.navigateByUrl("")
     }
     else {
       this.rentalService.RentACar(this.rental).subscribe(response => {
         if (response.success) {
           this.toastr.success(response.message, "Success");
+          this.router.navigateByUrl("rentaldetail")
         }
       }, error => {
         this.toastr.error(error.error.message, "Error")
+        
       })
     }
   }

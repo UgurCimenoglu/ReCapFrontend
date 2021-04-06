@@ -2,25 +2,6 @@
     <span class="visually-hidden">Loading...</span>
 </div>
 
-<!--
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Brand</th>
-        <th>Color</th>
-        <th>Daily Price</th>
-    </tr>
-</thead>
-<tbody>
-    <tr *ngFor="let cardetail of carDetails">
-        <td>{{cardetail.carName}}</td>
-        <td>{{cardetail.brandName}}</td>
-        <td>{{cardetail.colorName}}</td>
-        <td>{{cardetail.dailyPrice}}</td>
-    </tr>
-</tbody>
-</table> -->
 <div class="row mt-3">
     <div class="input-group flex-nowrap">
         <input type="text" [(ngModel)]="carFilterText" class="form-control" placeholder="Araç ismi arayabilirsiniz..." aria-label="Username"
@@ -31,7 +12,7 @@
 <div class="row">
     <div *ngFor="let car of Cars | carFilter:carFilterText" class="myCard p-3 col-md-4">
         <div class="card">
-            <img [src]="SetImage(car)" class="card-img-top myimg" alt="...">
+            <img src="{{staticFilesUrl}}{{car.imagePath}}" class="card-img-top myimg" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{car.carName}}</h5>
                 <p class="card-text">Firmamız sizin için en uygun fiyatlı araçları hizmetinize sunmaktadır. Araç

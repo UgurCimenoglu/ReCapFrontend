@@ -1,0 +1,144 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Color</th>
+            <th>Daily Price</th>
+            <th>ModelYear</th>
+            <th>Description</th>
+            <th class="d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addCar">
+                    Marka Ekle
+                </button>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let car of Cars">
+            <td>{{car.id}}</td>
+            <td>{{car.carName}}</td>
+            <td>{{car.brandId}}</td>
+            <td>{{car.colorId}}</td>
+            <td>{{car.dailyPrice}}</td>
+            <td>{{car.modelYear}}</td>
+            <td>{{car.description}}</td>
+            <td class="d-flex justify-content-center">
+
+                <button type="button" class="btn btn-outline-primary mx-3" data-bs-toggle="modal"
+                    data-bs-target="#updateCar" (click)="SetCar(car.id)">
+                    Güncelle
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteBrand">
+                    Sil
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!--Ekle Modal-->
+<div class="modal fade" id="addCar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="addCarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCarLabel">Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="CarAddForm">
+                    <label for="carName" class="col-4 col-form-label">Araç Adı</label>
+                    <div class="form-group row mb-2">
+                        <input type="text" class="form-control" id="carName" formControlName="carName" />
+                    </div>
+                    <label for="brand" class="col-4 col-form-label">Marka</label>
+                    <div class="form-group row mb-2" id="brand">
+                        <select class="form-select" aria-label="Default select example" formControlName="brandId">
+                            <option *ngFor="let brand of Brands" value="{{brand.id}}">
+                                {{brand.name}}</option>
+                        </select>
+                    </div>
+                    <label for="color" class="col-4 col-form-label">Renk</label>
+                    <div class="form-group row mb-2" id="color">
+                        <select class="form-select" aria-label="Default select example" formControlName="colorId">
+                            <option *ngFor="let color of Colors" value="{{color.id}}">
+                                {{color.name}}</option>
+                        </select>
+                    </div>
+                    <label for="dailyPrice" class="col-4 col-form-label">Günlük Fiyat</label>
+                    <div class="form-group row mb-2">
+                        <input type="number" class="form-control" formControlName="dailyPrice" id="dailyPrice" />
+                    </div>
+                    <label for="modelYear" class="col-4 col-form-label">Model Yılı</label>
+                    <div class="form-group row mb-2">
+                        <input type="number" class="form-control" formControlName="modelYear" id="modelYear" />
+                    </div>
+                    <label for="description" class="col-4 col-form-label">Açıklama</label>
+                    <div class="form-group row mb-2">
+                        <textarea id="description" cols="30" rows="5" formControlName="description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="addCar()">Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--GüncelleModal-->
+<div class="modal fade" id="updateCar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="updateCarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateCarLabel">Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="CarUpdateForm">
+                    <label for="carName" class="col-4 col-form-label">Araç Adı</label>
+                    <div class="form-group row mb-2">
+                        <input type="text" class="form-control" id="uptCarName" formControlName="carName" value="{{Car?Car.carName:''}}"/>
+                    </div>
+                    <label for="brand" class="col-4 col-form-label">Marka</label>
+                    <div class="form-group row mb-2" id="brand">
+                        <select class="form-select" aria-label="Default select example" formControlName="brandId">
+                            <option *ngFor="let brand of Brands" value="{{brand.id}}" [selected]="brand.id==Car?.brandId?brand.name:''">
+                                {{brand.name}}</option>
+                        </select>
+                    </div>
+                    <label for="color" class="col-4 col-form-label">Renk</label>
+                    <div class="form-group row mb-2" id="uptcolor">
+                        <select class="form-select" aria-label="Default select example" formControlName="colorId">
+                            <option *ngFor="let color of Colors" value="{{color.id}}" [selected]="color.id==Car?.colorId?color.name:''">
+                                {{color.name}}</option>
+                        </select>
+                    </div>
+                    <label for="dailyPrice" class="col-4 col-form-label">Günlük Fiyat</label>
+                    <div class="form-group row mb-2">
+                        <input type="number" class="form-control" formControlName="dailyPrice" id="uptDailyPrice" value="{{Car?Car.dailyPrice:''}}" />
+                    </div>
+                    <label for="modelYear" class="col-4 col-form-label">Model Yılı</label>
+                    <div class="form-group row mb-2">
+                        <input type="number" class="form-control" formControlName="modelYear" id="uptModelYear"  value="{{Car?Car.modelYear:''}}"/>
+                    </div>
+                    <label for="description" class="col-4 col-form-label">Açıklama</label>
+                    <div class="form-group row mb-2">
+                        <textarea id="uptDescription" cols="30" rows="5" formControlName="description"  value="{{Car?Car.description:''}}"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="updateCar()">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
+

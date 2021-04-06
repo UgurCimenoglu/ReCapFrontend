@@ -22,6 +22,9 @@ import { PaymentComponent } from './component/payment/payment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
+import { SidebarComponent } from './component/sidebar/sidebar.component';
+import { CartableComponent } from './component/cartable/cartable.component';
+
 
 
 
@@ -39,7 +42,9 @@ import { ToastrModule } from 'ngx-toastr';
     BrandfilterPipe,
     ColorfilterPipe,
     RentalComponent,
-    PaymentComponent
+    PaymentComponent,
+    SidebarComponent,
+    CartableComponent
   ],
   imports: [
     BrowserModule,
