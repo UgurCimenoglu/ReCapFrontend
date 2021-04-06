@@ -132,6 +132,21 @@ export class CartableComponent implements OnInit {
     else {
       this.toastr.error("Form Bilgilerini Kontrol Ediniz!", "Hata")
     }
-
   }
+  //UpdateCarEnd
+
+
+  //DeleteCar
+  deleteCar() {
+    this.cardetailService.deleteCar(this.Car).subscribe(response => {
+      if (response.success) {
+        this.toastr.success(response.message, "Başarılı")
+      } else {
+        this.toastr.error(response.message, "Hata")
+      }
+    }, error => {
+      this.toastr.error("Hata", "Bir şeyler ters gitti!")
+    })
+  }
+
 }

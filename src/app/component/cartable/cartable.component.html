@@ -31,7 +31,7 @@
                     Güncelle
                 </button>
                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                    data-bs-target="#deleteBrand">
+                    data-bs-target="#deleteCar" (click)="SetCar(car.id)">
                     Sil
                 </button>
             </td>
@@ -104,33 +104,39 @@
                 <form [formGroup]="CarUpdateForm">
                     <label for="carName" class="col-4 col-form-label">Araç Adı</label>
                     <div class="form-group row mb-2">
-                        <input type="text" class="form-control" id="uptCarName" formControlName="carName" value="{{Car?Car.carName:''}}"/>
+                        <input type="text" class="form-control" id="uptCarName" formControlName="carName"
+                            value="{{Car?Car.carName:''}}" />
                     </div>
                     <label for="brand" class="col-4 col-form-label">Marka</label>
                     <div class="form-group row mb-2" id="brand">
                         <select class="form-select" aria-label="Default select example" formControlName="brandId">
-                            <option *ngFor="let brand of Brands" value="{{brand.id}}" [selected]="brand.id==Car?.brandId?brand.name:''">
+                            <option *ngFor="let brand of Brands" value="{{brand.id}}"
+                                [selected]="brand.id==Car?.brandId?brand.name:''">
                                 {{brand.name}}</option>
                         </select>
                     </div>
                     <label for="color" class="col-4 col-form-label">Renk</label>
                     <div class="form-group row mb-2" id="uptcolor">
                         <select class="form-select" aria-label="Default select example" formControlName="colorId">
-                            <option *ngFor="let color of Colors" value="{{color.id}}" [selected]="color.id==Car?.colorId?color.name:''">
+                            <option *ngFor="let color of Colors" value="{{color.id}}"
+                                [selected]="color.id==Car?.colorId?color.name:''">
                                 {{color.name}}</option>
                         </select>
                     </div>
                     <label for="dailyPrice" class="col-4 col-form-label">Günlük Fiyat</label>
                     <div class="form-group row mb-2">
-                        <input type="number" class="form-control" formControlName="dailyPrice" id="uptDailyPrice" value="{{Car?Car.dailyPrice:''}}" />
+                        <input type="number" class="form-control" formControlName="dailyPrice" id="uptDailyPrice"
+                            value="{{Car?Car.dailyPrice:''}}" />
                     </div>
                     <label for="modelYear" class="col-4 col-form-label">Model Yılı</label>
                     <div class="form-group row mb-2">
-                        <input type="number" class="form-control" formControlName="modelYear" id="uptModelYear"  value="{{Car?Car.modelYear:''}}"/>
+                        <input type="number" class="form-control" formControlName="modelYear" id="uptModelYear"
+                            value="{{Car?Car.modelYear:''}}" />
                     </div>
                     <label for="description" class="col-4 col-form-label">Açıklama</label>
                     <div class="form-group row mb-2">
-                        <textarea id="uptDescription" cols="30" rows="5" formControlName="description"  value="{{Car?Car.description:''}}"></textarea>
+                        <textarea id="uptDescription" cols="30" rows="5" formControlName="description"
+                            value="{{Car?Car.description:''}}"></textarea>
                     </div>
                 </form>
             </div>
@@ -142,3 +148,19 @@
     </div>
 </div>
 
+<!--Sil Modal-->
+<div class="modal fade" id="deleteCar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="deleteCarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCarLabel">Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-primary" (click)="deleteCar()">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
