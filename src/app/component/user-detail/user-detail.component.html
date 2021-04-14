@@ -1,0 +1,86 @@
+<div *ngIf="user" class="container bootstrap snippets bootdey mt-3">
+    <div class="panel-body inf-content">
+        <div class="row">
+            <div class="col-md-4 m-1">
+                <img alt="" style="width:600px;" title="" class="img-circle img-thumbnail isTooltip"
+                    src="https://bootdey.com/img/Content/avatar/avatar7.png" data-original-title="Usuario">
+                <button type="button" class="btn btn-outline-primary my-2 w-100" data-bs-toggle="modal"
+                    data-bs-target="#updateUser">
+                    Bilgileri Güncelle
+                </button>
+            </div>
+            <div class="col-md-6">
+                <br>
+                <strong>User Information</strong>
+                <br><br>
+                <div class="table-responsive">
+                    <table class="table table-user-information">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>
+                                        Email
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{user.email}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>
+                                        FirstName
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{user.firstName}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>
+                                        LastName
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{user.lastName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="updateUserLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateUserLabel">Güncelle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="userForm">
+                        <label for="uptUserEmail" class="col-4 col-form-label">Email</label>
+                        <div class="form-group row mb-2">
+                            <input type="email" class="form-control" id="uptUserEmail" formControlName="email" />
+                        </div>
+                        <label for="uptUserFirstName" class="col-4 col-form-label">FirstName</label>
+                        <div class="form-group row mb-2">
+                            <input type="text" class="form-control" id="uptUserFirstName" formControlName="firstName" />
+                        </div>
+                        <label for="uptUserLastName" class="col-4 col-form-label">LastName</label>
+                        <div class="form-group row mb-2">
+                            <input type="text" class="form-control" id="uptUserLastName" formControlName="lastName" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-primary" (click)="updateUser()">Güncelle</button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -5,6 +5,8 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { RentalService } from 'src/app/services/rental.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
+import { CreditCardService } from 'src/app/services/credit-card.service';
+import { CreditCard } from 'src/app/models/creditCard';
 
 
 @Component({
@@ -18,25 +20,61 @@ export class PaymentComponent implements OnInit {
     private carDetailService: CardetailService,
     private formBuilder: FormBuilder,
     private rentalService: RentalService,
+    private creditCardService: CreditCardService,
     private toastr: ToastrService,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
   rental: Rental;
   Amount: number;
   formCard: FormGroup;
+  formSaveCard: FormGroup;
+  customerCreditCard: CreditCard[];
+  selectedCard: CreditCard;
+
+
 
   ngOnInit(): void {
     this.getRentCart();
     this.getCarDetail();
-    if (!this.rental) {
-      this.router.navigateByUrl("/");
-    }
+    this.getCreditCardByCustomerId();
+    // if (!this.rental) {
+    //   this.router.navigateByUrl("/");
+    // }
 
     this.formCard = this.formBuilder.group({
-      name: ["", [Validators.required]],
+      customerId: [this.rental.customerId],
+      owner: [this.selectedCard ? this.selectedCard.owner : "", [Validators.required]],
       cardNumber: ["", [Validators.required, Validators.minLength(16), Validators.pattern("^[0-9]*$")]],
-      expDate: ["", [Validators.required, Validators.pattern(/^(?:0?[1-9]|1[0-2]) *\/ *[1-9][0-9]$/)]],
+      validDate: ["", [Validators.required, Validators.pattern(/^(?:0?[1-9]|1[0-2]) *\/ *[1-9][0-9]$/)]],
       cvv: ["", [Validators.required, Validators.minLength(3), Validators.pattern("^[0-9]*$")]],
+    })
+
+    this.formSaveCard = this.formBuilder.group({
+      saveCard: [false],
+    })
+  }
+
+  getCreditCardByCustomerId() {
+    this.creditCardService.getCreditCardByCustomerId(this.rental.customerId).subscribe(response => {
+      if (response.success) {
+        this.customerCreditCard = response.data;
+      }
+      console.log(this.customerCreditCard)
+    })
+  }
+
+  setSelectedCard(creditCard: CreditCard) {
+    this.selectedCard = creditCard;
+    this.formCard.patchValue(this.selectedCard);
+  }
+
+  removeCard(creditCard: CreditCard) {
+    this.creditCardService.deleteCreditCard(creditCard).subscribe(response => {
+      console.log(response);
+      if(response.success){
+        this.getCreditCardByCustomerId();
+      }
     })
   }
 
@@ -67,18 +105,30 @@ export class PaymentComponent implements OnInit {
   onSubmit(data: object) {
     if (this.formCard.invalid) {
       this.toastr.error("Hata", "Bilgilerinizi kontrol edin!")
-      this.router.navigateByUrl("")
+      console.log(this.formCard.value);
     }
     else {
-      this.rentalService.RentACar(this.rental).subscribe(response => {
-        if (response.success) {
-          this.toastr.success(response.message, "Success");
-          this.router.navigateByUrl("rentaldetail")
-        }
-      }, error => {
-        this.toastr.error(error.error.message, "Error")
-        
-      })
+      console.log(this.formCard.value);
+      console.log(this.formSaveCard.value);
+      if (this.formSaveCard.value.saveCard) {
+        let formValues = this.formCard.value;
+        this.creditCardService.addCreditCard(formValues).subscribe(response => {
+          if (response.success) {
+            this.toastr.info(response.message, "Eklendi.");
+          }
+        }, error => {
+          this.toastr.error("Card Kaydedilemedi");
+        })
+      }
+      // this.rentalService.RentACar(this.rental).subscribe(response => {
+      //   if (response.success) {
+      //     this.toastr.success(response.message, "Success");
+      //     this.router.navigateByUrl("rentaldetail")
+      //   }
+      // }, error => {
+      //   this.toastr.error(error.error.message, "Error")
+
+      // })
     }
   }
 }

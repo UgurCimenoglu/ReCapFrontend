@@ -68,6 +68,7 @@ export class CartableComponent implements OnInit {
   GetCars() {
     this.cardetailService.getCars().subscribe(cars => {
       this.Cars = cars.data;
+      console.log(cars.data)
     })
   }
 

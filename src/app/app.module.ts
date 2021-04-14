@@ -24,6 +24,9 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { CartableComponent } from './component/cartable/cartable.component';
+import { LoginComponent } from './component/login/login.component';
+import { RegisterComponent } from './component/register/register.component';
+import { UserDetailComponent } from './component/user-detail/user-detail.component';
 
 
 
@@ -44,7 +47,10 @@ import { CartableComponent } from './component/cartable/cartable.component';
     RentalComponent,
     PaymentComponent,
     SidebarComponent,
-    CartableComponent
+    CartableComponent,
+    LoginComponent,
+    RegisterComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
